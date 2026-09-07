@@ -136,3 +136,31 @@ html[data-theme="light"]{--bg:#f7f6f3;--fg:#191918;--surface:#fff;--surface-2:#e
 .app-toast,.dash-content>.dash-alert{position:fixed;z-index:190;top:82px;right:24px;width:min(330px,calc(100vw - 28px));display:flex;align-items:center;gap:10px;margin:0;padding:12px 13px;border:1px solid rgba(24,166,108,.22);border-radius:9px;background:var(--surface);color:var(--fg);box-shadow:0 14px 38px rgba(0,0,0,.16);animation:toast-in .2s ease-out}.app-toast>span{display:grid;place-items:center;flex:0 0 24px;height:24px;border-radius:50%;background:rgba(24,166,108,.1);color:var(--green);font-size:9px;font-weight:800}.app-toast p{flex:1;margin:0;font-size:9px;line-height:1.45}.app-toast>button{border:0;background:transparent;color:var(--muted);font-size:15px}.app-toast.error,.dash-content>.dash-alert.error{border-color:rgba(255,42,0,.25)}.app-toast.error>span{background:rgba(255,42,0,.08);color:var(--primary)}.temp-page-heading~.dash-alert.success{display:none}@keyframes toast-in{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}@media(max-width:620px){.app-toast,.dash-content>.dash-alert{top:76px;right:14px}}
 .dash-content>.dash-alert{animation:toast-in .2s ease-out,toast-out .2s ease-in 4.5s forwards}@keyframes toast-out{to{opacity:0;visibility:hidden;transform:translateY(-7px)}}
 .order-destination-link{display:block;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--primary);font-size:7px;text-decoration:none}.order-destination-link:hover{text-decoration:underline}
+@media(max-width:620px){
+  body{font-size:15px}
+  input,select,textarea{font-size:16px!important}
+  .button,.text-button,.text-link{font-size:13px}
+  .nav-links a{font-size:14px}
+  .hero-copy>p,.section-heading p,.section-lead,.page-hero p,.cta-card>p{font-size:14px;line-height:1.7}
+  .pill,.eyebrow{font-size:11px}
+  .feature-card h3,.step h3,.service-card h3,.info-card h3,.faq-support-card h3{font-size:16px}
+  .feature-card p,.step p,.service-card p,.info-card p,.info-card li,.faq p,.faq-item p,.faq-support-card p,.prose p,.prose li,.contact-grid>div>p{font-size:13px}
+  .faq summary,.faq-item summary{font-size:14px}
+  .footer-copy{max-width:100%;font-size:13px}.footer-grid h4{font-size:13px}.footer-grid>div:not(:first-child) a{font-size:12px}.footer-bottom{font-size:11px}
+  .field label{font-size:12px}.form-message,.auth-subtitle,.auth-box-footer{font-size:12px}
+  .dash-sidebar nav a,.sidebar-bottom-links a{font-size:12px}
+  .dash-kicker{font-size:10px}.dash-heading h1{font-size:25px}.dash-heading p{font-size:13px}
+  .panel-head h2{font-size:15px}.panel-head p,.panel-head a{font-size:11px}
+  .stat-grid small,.stat-grid em{font-size:10px}.stat-grid strong{font-size:17px}
+  .dash-table th{font-size:10px}.dash-table td{font-size:12px}.dash-table td strong{font-size:12px}.dash-table td small,.order-destination-link{font-size:10px}
+  .status-pill,.row-actions button,.table-pagination span,.table-pagination button{font-size:10px!important}
+  .dash-alert,.table-loading,.dash-empty p,.locked-modal p{font-size:12px}
+  .dash-empty h3{font-size:15px}
+  .order-confirmation-note p{font-size:11px}.order-confirmation-note>span{font-size:10px}
+  .service-category-heading h2{font-size:14px}
+  .services-by-category .service-catalog article h3{font-size:13px}.services-by-category .service-catalog article p{font-size:11px}
+  .temp-hero p,.temp-help-card p,.temp-order-note{font-size:12px}.temp-hero>div:first-child>span,.temp-help-card>span{font-size:10px}
+  .temp-table-panel .dash-table th{font-size:10px}.temp-table-panel .dash-table td{font-size:12px}
+  .temp-stock,.temp-waiting,.temp-status-action>button{font-size:10px}
+  .api-docs p,.api-docs table,.api-quick-card>p{font-size:12px}.api-docs th,.api-facts span,.api-quick-card label{font-size:10px}.api-docs td code,.api-docs p code,.api-code{font-size:10px}
+}

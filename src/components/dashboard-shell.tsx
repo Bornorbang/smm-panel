@@ -95,6 +95,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               {label}
             </Link>
           ))}
+          {user.role === "admin" && (
+            <Link href="/admin" onClick={() => setOpen(false)}>
+              <span aria-hidden="true">⚙</span>
+              Admin
+            </Link>
+          )}
         </nav>
         <nav className="sidebar-bottom-links"><Link href="/dashboard/support" onClick={()=>setOpen(false)}><span>?</span>Contact Support</Link><a href="https://whatsapp.com/channel/0029Vb7uTgC30LKUfBRj3p2L" target="_blank" rel="noopener noreferrer"><span>◉</span>Join Channel</a></nav>
       </aside>
