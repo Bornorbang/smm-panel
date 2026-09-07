@@ -64,7 +64,15 @@ export function OrderTable({
                 </td>
                 <td>
                   <strong>{o.service_name}</strong>
-                  <small>{o.category}</small>
+                  <a
+                    className="order-destination-link"
+                    href={o.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={o.link}
+                  >
+                    {o.link}
+                  </a>
                 </td>
                 <td>
                   {Number(o.quantity).toLocaleString()}
