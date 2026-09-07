@@ -24,7 +24,8 @@ export function KoraCheckout({ onFunded }: { onFunded: () => void }) {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("");
-    if (Number(amount) < 500) return setMessage("The minimum top-up amount is ₦500.");
+    if (!Number.isFinite(Number(amount)) || Number(amount) < 500)
+      return setMessage("The minimum top-up amount is ₦500.");
     if (!ready)
       return setMessage("Payment checkout is still loading. Please try again.");
     setLoading(true);
@@ -86,8 +87,7 @@ export function KoraCheckout({ onFunded }: { onFunded: () => void }) {
               name="amount"
               type="number"
               min="500"
-              max="5000000"
-              step="100"
+              step="any"
               required
               value={amount}
               onChange={(event) => setAmount(event.target.value)}

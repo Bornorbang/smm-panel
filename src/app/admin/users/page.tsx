@@ -39,7 +39,6 @@ export default function UsersPage() {
       });
       setMessage(`${selected.name}'s wallet was updated.`);
       setSelected(null);
-      e.currentTarget.reset();
       await load();
     } catch (reason) {
       setError(
@@ -135,14 +134,6 @@ export default function UsersPage() {
                 step="0.01"
                 required
                 placeholder="5000"
-              />
-            </div>
-            <div className="field">
-              <label>Description</label>
-              <input
-                name="description"
-                required
-                placeholder="Reason for adjustment"
               />
             </div>
             <button className="button" type="submit">
