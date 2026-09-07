@@ -22,6 +22,8 @@ const links = [
   ["/dashboard/services", "◎", "Services"],
   ["/dashboard/wallet", "₦", "Wallet"],
   ["/dashboard/refills", "↻", "Refills"],
+  ["/dashboard/api", "</>", "API"],
+  ["/temp-number", "☎", "Temporary Numbers"],
 ];
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
@@ -33,6 +35,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [dark, setDark] = useState(true);
   const [lockedModal, setLockedModal] = useState(false);
+  const [toast, setToast] = useState<{message:string;type:"success"|"error"}|null>(null);
   useEffect(() => {
     setDark(document.documentElement.dataset.theme !== "light");
     preloadServices();
@@ -55,6 +58,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     return () => document.removeEventListener("mousedown", close);
   }, []);
   useEffect(()=>{const show=()=>setLockedModal(true);window.addEventListener("account-locked",show);return()=>window.removeEventListener("account-locked",show)},[]);
+  useEffect(()=>{const refresh=()=>{api<{balance:string}>("/api/wallet").then(wallet=>setBalance(wallet.balance)).catch(()=>undefined)};window.addEventListener("wallet-updated",refresh);return()=>window.removeEventListener("wallet-updated",refresh)},[]);
+  useEffect(()=>{let timer:number|undefined;const show=(event:Event)=>{const detail=(event as CustomEvent<{message:string;type:"success"|"error"}>).detail;setToast(detail);if(timer)window.clearTimeout(timer);timer=window.setTimeout(()=>setToast(null),4500)};window.addEventListener("app-toast",show);return()=>{window.removeEventListener("app-toast",show);if(timer)window.clearTimeout(timer)}},[]);
   function toggleTheme() {
     const next = dark ? "light" : "dark";
     document.documentElement.dataset.theme = next;
@@ -84,19 +89,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className={path === href ? "active" : ""}
+              className={path === href || (href === "/temp-number" && path.startsWith("/temp-number/")) ? "active" : ""}
             >
               <span>{icon}</span>
               {label}
             </Link>
           ))}
-          <a
-            href="https://www.tempnumber.ng/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>☎</span>Temporary Numbers
-          </a>
         </nav>
         <nav className="sidebar-bottom-links"><Link href="/dashboard/support" onClick={()=>setOpen(false)}><span>?</span>Contact Support</Link><a href="https://whatsapp.com/channel/0029Vb7uTgC30LKUfBRj3p2L" target="_blank" rel="noopener noreferrer"><span>◉</span>Join Channel</a></nav>
       </aside>
@@ -162,17 +160,9 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </header>
-        <div className="dash-content">{children}</div>{lockedModal&&<div className="locked-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="locked-title"><div className="locked-modal"><span>!</span><h2 id="locked-title">Account locked</h2><p>Your account is currently locked and cannot perform transactions. Please contact the administrator for assistance.</p><div><Link className="button" href="/dashboard/support" onClick={()=>setLockedModal(false)}>Contact support</Link><button className="button button-secondary" onClick={()=>setLockedModal(false)}>Close</button></div></div></div>}
+        <div className="dash-content">{children}</div>{lockedModal&&<div className="locked-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="locked-title"><div className="locked-modal"><span>!</span><h2 id="locked-title">Account locked</h2><p>Your account is currently locked and cannot perform transactions. Please contact the administrator for assistance.</p><div><Link className="button" href="/dashboard/support" onClick={()=>setLockedModal(false)}>Contact support</Link><button className="button button-secondary" onClick={()=>setLockedModal(false)}>Close</button></div></div></div>}{toast&&<div className={`app-toast ${toast.type}`} role={toast.type==="error"?"alert":"status"}><span>{toast.type==="success"?"✓":"!"}</span><p>{toast.message}</p><button onClick={()=>setToast(null)} aria-label="Close notification">×</button></div>}
         <footer className="dashboard-footer">
-          © 2026 SMM Panel by{" "}
-          <a
-            href="https://hostingnigeria.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Hosting Nigeria
-          </a>
-          . All rights reserved.
+          © 2026 <Link href="/">SMM Panel</Link>. All rights reserved.
         </footer>
       </section>
     </div>

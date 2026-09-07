@@ -1,0 +1,3 @@
+export type TempNumberService={api_name:string;service_name:string;country:"USA";currency:"NGN";price_ngn:string;stock:number;ttl:number;multiple_sms:boolean};
+export type TempNumberOrder={id:number;provider_request_id?:string|null;service:string;service_name:string;country:string;number:string|null;code:string|null;status:string;currency:string;end_time:string|null;last_error:string|null;created_at:string;updated_at:string;price_ngn:string;refunded:boolean};
+export const tempStatusTerminal=(status:string)=>["completed","cancelled","canceled","expired","failed"].includes(status.toLowerCase());
