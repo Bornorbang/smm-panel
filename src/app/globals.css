@@ -82,6 +82,22 @@ html[data-theme="light"]{--bg:#f7f6f3;--fg:#191918;--surface:#fff;--surface-2:#e
   .platform-logos>div,.platform-logo-clone{display:grid!important;width:82px;min-width:82px;height:78px}
   .footer-copy{max-width:100%;width:100%}
 }
+/* Mobile readability baseline: no informational text should render below 12px. */
+@media(max-width:850px){
+  p,li,dd{font-size:13px!important;line-height:1.65}
+  a:not(.logo),button,label,td{font-size:13px!important}
+  small,dt,th,code{font-size:12px!important;line-height:1.5}
+  input,select,textarea{font-size:16px!important}
+  .pill,.eyebrow,.popular,.badge,.dash-kicker,.status-pill,.wallet-status,.admin-label,.admin-count,.api-state,.temp-live-label{font-size:12px!important}
+  .play,.console-tag,.thinking,.confidence,.auth-stars,.builder-step>span,.step>span,.top-wallet,.temp-refresh-all,.temp-status-action>button,.temp-number-value button,.temp-code button,.temp-cancel{font-size:12px!important}
+  .micro-proof strong,.console-top,.rec-head,.rec-item strong,.rec-item>b,.signal-head,.signal-score strong span,.signal-insight strong,.contact-method strong,.auth-person strong,.setting-row strong,.activity-list strong,.catalog-main h3,.temp-order-list strong,.temp-order-list b,.api-key-reveal>strong,.api-facts strong{font-size:13px!important}
+  .micro-proof small,.prompt-row small,.rec-head b,.rec-item small,.console-footer span,.trust-strip span,.signal-head small,.signal-score small,.signal-score em,.cta-card>small,.contact-method small,.auth-person small,.dash-user small,.stat-grid small,.stat-grid em,.panel-head p,.panel-head a,.dash-table td small,.summary-note,.catalog-main>small,.catalog-main p,.catalog-main>div span,.catalog-rate small,.setting-row small,.activity-list small,.top-wallet small,.admin-stat-grid small,.admin-stat-grid em,.admin-list>div>span,.admin-list small,.service-category-heading p,.admin-filters label,.api-key-masked small,.api-facts span,.temp-phone small,.temp-stats small,.temp-stats em,.temp-order-list small,.temp-service-summary span,.temp-order-card header small,.temp-number-value span,.temp-code span,.temp-order-card dt{font-size:12px!important}
+  .feature-card a,.forgot-link,.password-wrap button,.check-row,.social-divider,.social-buttons button,.sidebar-upgrade a,.sidebar-logout,.ai-insight-panel>a,.row-actions button,.setting-row button,.setting-row em,.wallet-page-link a,.amount-suggestions button,.profile-dropdown a,.profile-dropdown button,.admin-signout,.admin-action,.admin-close,.admin-filters>button,.table-pagination span,.table-pagination button,.api-key-reveal button,.api-docs-layout>aside a,.api-key-view button,.temp-service-table td>button,.temp-order-card>footer .button,.order-destination-link{font-size:12px!important}
+  .prompt-row p,.signal-insight p,.footer-copy,.info-card p,.info-card li,.price-card>p,.price-card li,.faq p,.faq-support-card p,.faq-item p,.prose p,.prose li,.contact-grid>div>p,.auth-subtitle,.coming-card p,.sidebar-upgrade p,.dash-heading p,.ai-insight-panel>p,.builder-step p,.order-summary>p,.wallet-balance-card>p,.wallet-fund-heading p,.locked-modal p,.order-confirmation-note p,.faq-list details p,.api-key-reveal>p,.api-quick-card>p,.api-docs p,.temp-hero p,.empty-state p,.temp-order-note,.temp-help-card p,.temp-help-card li,.temp-refunded,.temp-order-error,.app-toast p{font-size:13px!important}
+  .dash-search input,.temp-service-search input,.admin-filters input[type="date"],.admin-filters select,.temp-purchase-form select{font-size:16px!important}
+  .dash-table th,.api-docs th{font-size:12px!important}.dash-table td,.api-docs table{font-size:13px!important}
+  .dashboard-footer,.footer-bottom{font-size:12px!important}
+}
 @keyframes platform-scroll{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.platform-logos{animation-play-state:paused!important}}
 .hero .ai-console{min-height:470px;height:470px}
@@ -165,4 +181,12 @@ html[data-theme="light"]{--bg:#f7f6f3;--fg:#191918;--surface:#fff;--surface-2:#e
   .temp-table-panel .dash-table th{font-size:10px}.temp-table-panel .dash-table td{font-size:12px}
   .temp-stock,.temp-waiting,.temp-status-action>button{font-size:10px}
   .api-docs p,.api-docs table,.api-quick-card>p{font-size:12px}.api-docs th,.api-facts span,.api-quick-card label{font-size:10px}.api-docs td code,.api-docs p code,.api-code{font-size:10px}
+}
+@media(max-width:850px){
+  .status-pill,.row-actions button,.table-pagination span,.table-pagination button{font-size:12px!important}
+  .temp-rentals-table th:first-child{font-size:0!important}
+  .trust-strip .shell,.service-row,.activity-list span,.dashboard-toast,.temp-purchase-overlay{font-size:13px!important}
+  .service-row:first-child{font-size:12px!important}
+  .service-row strong,.sidebar-upgrade strong,.dash-user strong,.top-wallet strong,.admin-list strong,.admin-list b,.temp-service-summary strong{font-size:13px!important}
+  .auth-image-caption span,.auth-person i{font-size:12px!important}
 }
