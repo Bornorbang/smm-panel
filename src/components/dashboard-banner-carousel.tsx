@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 
 const banners = [
+  { src: "/Banner-social-media-boost.jpg", href: "/dashboard/new-order", alt: "Grow your social media account" },
   { src: "/Banner4.jpg", href: "https://whatsapp.com/channel/0029Vb7uTgC30LKUfBRj3p2L", alt: "Join the SMM Panel Nigeria WhatsApp channel" },
   { src: "/Banner-temporary-numbers.jpg", href: "/temp-number", alt: "Buy temporary numbers" },
   { src: "/Banner-affordable-domains.jpg", href: "https://hostingnigeria.com/register-domain/", alt: "Register an affordable domain" },
