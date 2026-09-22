@@ -102,7 +102,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </Link>
           )}
         </nav>
-        <nav className="sidebar-bottom-links"><Link href="/dashboard/support" onClick={()=>setOpen(false)}><span>?</span>Contact Support</Link><a href="https://whatsapp.com/channel/0029Vb7uTgC30LKUfBRj3p2L" target="_blank" rel="noopener noreferrer"><span>◉</span>Join Channel</a></nav>
+        <nav className="sidebar-bottom-links"><Link href="/dashboard/support" className={path === "/dashboard/support" ? "active" : ""} onClick={()=>setOpen(false)}><span>?</span>Contact Support</Link><a href="https://whatsapp.com/channel/0029Vb7uTgC30LKUfBRj3p2L" target="_blank" rel="noopener noreferrer"><span>◉</span>Join Channel</a></nav>
       </aside>
       <section className="dash-main">
         <header className="dash-topbar">

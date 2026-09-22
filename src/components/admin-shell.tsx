@@ -8,6 +8,8 @@ import { Logo } from "@/components/logo";
 
 const links = [["/admin","▦","Overview"],["/admin/users","♙","Users"],["/admin/orders","▤","Orders"],["/admin/wallets","₦","Wallets"],["/admin/payments","↗","Top-ups"],["/admin/refills","↻","Refills"],["/admin/services","◉","Services"]];
 
+links.push(["/admin/temp-numbers", "☎", "Temporary Numbers"]);
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const path=usePathname();const router=useRouter();const[user,setUser]=useState<User|null>(null);const[open,setOpen]=useState(false);
   useEffect(()=>{api<{user:User}>("/api/auth/me").then(r=>{if(r.user.role!=="admin")router.replace("/dashboard");else setUser(r.user)}).catch(()=>router.replace("/login"))},[router]);
