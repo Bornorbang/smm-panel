@@ -6,7 +6,7 @@ const source = fs.readFileSync(path.join(__dirname, "../src/lib/admin-data.ts"),
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } });
 const loaded = { exports: {} };
 new Function("exports", "module", compiled.outputText)(loaded.exports, loaded);
-const { filterAdminRows, adminPage, sumAmount, customerWalletTotal } = loaded.exports;
+const { filterAdminRows, adminPage, sumAmount, customerWalletTotal, customerCreditTotal } = loaded.exports;
 
 const rows = Array.from({ length: 45 }, (_, index) => ({
   id: index + 1, user_email: "customer@example.com", amount: "100.25", charge: "100.25",
@@ -34,4 +34,11 @@ assert.equal(customerWalletTotal(users), 120.5);
 users[1].wallet_balance = "20.50";
 assert.equal(customerWalletTotal(users), 20.5);
 assert.equal(customerWalletTotal([]), 0);
+const activity = [...rows, { ...rows[0], id: 46, user_email: " Bornorbang@Gmail.com ", amount: "999999999" }];
+assert.equal(customerCreditTotal(activity), 23 * 100.25);
+const filteredActivity = filterAdminRows(activity, { ...emptyFilters, status: "completed", from: "2026-09-22", to: "2026-09-22" });
+assert.equal(customerCreditTotal(filteredActivity), 13 * 100.25);
+assert.equal(filteredActivity.length, 26); // Excluded credits remain in the audit table.
+assert.equal(customerCreditTotal(filterAdminRows(activity, { ...emptyFilters, query: "bornorbang@gmail.com" })), 0);
+assert.equal(customerCreditTotal(filterAdminRows(activity, { ...emptyFilters, type: "debit" })), 0);
 console.log("Admin filters, totals, pagination and excluded-wallet checks passed.");

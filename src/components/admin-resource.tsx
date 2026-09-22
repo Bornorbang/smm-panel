@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
-import { AdminRow, adminMoney, adminPage, filterAdminRows, sumAmount } from "@/lib/admin-data";
+import { AdminRow, adminMoney, adminPage, customerCreditTotal, filterAdminRows, sumAmount } from "@/lib/admin-data";
 import { AdminPagination } from "@/components/admin-pagination";
 
 type Column = { key: string; label: string; money?: boolean; status?: boolean };
@@ -24,7 +24,7 @@ export function AdminResource({ title, description, endpoint, keyName, columns }
   const pagination = adminPage(shown, page);
   function filter(key: keyof typeof filters, value: string) { setFilters(previous => ({ ...previous, [key]: value })); setPage(1); }
   const summaries = keyName === "transactions" ? [
-    { label: "Total credits", amount: sumAmount(shown.filter(row => row.type === "credit"), row => row.amount), tone: "credit" },
+    { label: "Total credits", amount: customerCreditTotal(shown), tone: "credit" },
     { label: "Total debits", amount: sumAmount(shown.filter(row => row.type === "debit"), row => row.amount), tone: "debit" },
   ] : keyName === "payments" ? [
     { label: "Total top-up amount", amount: sumAmount(shown, row => row.amount), tone: "credit" },

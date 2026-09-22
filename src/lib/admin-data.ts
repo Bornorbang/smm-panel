@@ -32,4 +32,9 @@ export function customerWalletTotal<T extends { email: string; wallet_balance: s
   return sumAmount(users.filter(user => user.email.trim().toLowerCase() !== EXCLUDED_WALLET_EMAIL), user => user.wallet_balance);
 }
 
+export function customerCreditTotal(rows: AdminRow[]) {
+  return sumAmount(rows.filter(row => row.type === "credit"
+    && String(row.user_email ?? "").trim().toLowerCase() !== EXCLUDED_WALLET_EMAIL), row => row.amount);
+}
+
 export const adminMoney = (amount: number) => `₦${amount.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
