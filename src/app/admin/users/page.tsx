@@ -1,6 +1,8 @@
 "use client";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
+import { adminMoney, adminPage, customerWalletTotal } from "@/lib/admin-data";
+import { AdminPagination } from "@/components/admin-pagination";
 type AdminUser = {
   id: number;
   name: string;
@@ -15,12 +17,18 @@ export default function UsersPage() {
   const [selected, setSelected] = useState<AdminUser | null>(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
   const [query,setQuery]=useState("");const[role,setRole]=useState("");const[access,setAccess]=useState("");const[from,setFrom]=useState("");const[to,setTo]=useState("");
   const load = useCallback(
-    () =>
-      api<{ users: AdminUser[] }>("/api/admin/users")
-        .then((r) => setUsers(r.users))
-        .catch((e) => setError(e.message)),
+    () => {
+
+
+      return api<{ users: AdminUser[] }>("/api/admin/users", { cache: "no-store" })
+        .then((r) => { setUsers(r.users); setError(""); })
+        .catch((e) => setError(e.message))
+        .finally(() => setLoading(false));
+    },
     [],
   );
   useEffect(() => {
@@ -48,6 +56,8 @@ export default function UsersPage() {
   }
   async function updateUser(user:AdminUser,action:"role"|"lock"){setError("");setMessage("");try{const body=action==="role"?{role:user.role==="admin"?"user":"admin"}:{locked:!Boolean(user.locked)};await api(`/api/admin/users/${user.id}/${action}`,{method:"PATCH",body:JSON.stringify(body)});setMessage(`${user.name} was updated.`);await load()}catch(reason){setError(reason instanceof Error?reason.message:"Unable to update user.")}}
   const shown=useMemo(()=>users.filter(u=>(!query||`${u.name} ${u.email}`.toLowerCase().includes(query.toLowerCase()))&&(!role||u.role===role)&&(!access||(access==="locked")===Boolean(u.locked))&&(!from||u.created_at.slice(0,10)>=from)&&(!to||u.created_at.slice(0,10)<=to)),[users,query,role,access,from,to]);
+  const pagination = adminPage(shown, page);
+  const walletTotal = customerWalletTotal(users);
   return (
     <>
       <div className="dash-heading">
@@ -56,12 +66,14 @@ export default function UsersPage() {
           <h1>Users</h1>
           <p>View accounts and credit or debit customer wallets.</p>
         </div>
+        <button className="button button-secondary" disabled={loading} onClick={() => { setLoading(true); setError(""); void load(); }}>{loading ? "Refreshing…" : "Refresh"}</button>
       </div>
+      <div className="admin-inline-totals"><strong className="admin-amount-credit" aria-label="Total customer wallet balance">{loading ? "Loading…" : error ? "Unavailable" : adminMoney(walletTotal)}</strong></div>
       {message && <div className="dash-alert success">{message}</div>}
       {error && <div className="dash-alert error">{error}</div>}
       <div className="admin-users-grid">
         <section className="dash-panel">
-          <div className="table-toolbar admin-filters"><div className="dash-search">⌕ <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search users..."/></div><select value={role} onChange={e=>setRole(e.target.value)}><option value="">All roles</option><option value="user">Users</option><option value="admin">Admins</option></select><select value={access} onChange={e=>setAccess(e.target.value)}><option value="">All access</option><option value="active">Active</option><option value="locked">Locked</option></select><label>From<input type="date" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>To<input type="date" value={to} onChange={e=>setTo(e.target.value)}/></label></div>
+          <div className="table-toolbar admin-filters"><div className="dash-search">⌕ <input value={query} onChange={e=>{setQuery(e.target.value);setPage(1)}} placeholder="Search users..."/></div><select value={role} onChange={e=>{setRole(e.target.value);setPage(1)}}><option value="">All roles</option><option value="user">Users</option><option value="admin">Admins</option></select><select value={access} onChange={e=>{setAccess(e.target.value);setPage(1)}}><option value="">All access</option><option value="active">Active</option><option value="locked">Locked</option></select><label>From<input type="date" value={from} onChange={e=>{setFrom(e.target.value);setPage(1)}}/></label><label>To<input type="date" value={to} onChange={e=>{setTo(e.target.value);setPage(1)}}/></label></div>
           <div className="dash-table-wrap">
             <table className="dash-table admin-table">
               <thead>
@@ -75,7 +87,7 @@ export default function UsersPage() {
                 </tr>
               </thead>
               <tbody>
-                {shown.map((u) => (
+                {!loading && pagination.rows.map((u) => (
                   <tr key={u.id}>
                     <td>
                       <strong>{u.name}</strong>
@@ -104,7 +116,10 @@ export default function UsersPage() {
                 ))}
               </tbody>
             </table>
+            {loading && <div className="table-loading">Loading users...</div>}
+            {!loading && !shown.length && <div className="table-loading">No users found.</div>}
           </div>
+          {!loading && <AdminPagination {...pagination} total={shown.length} onChange={setPage}/>}
         </section>
         {selected && (
           <form className="dash-panel admin-adjust" onSubmit={adjust}>
