@@ -7,8 +7,7 @@ export function SiteFooter() {
         <div>
           <Logo />
           <p className="footer-copy">
-            Affordable social media growth services, Naira payments, and
-            reliable order tracking.
+            Boost Instagram followers and TikTok booster growth with SMM Panel Nigeria, the Cheapest SMM panel in Nigeria &amp; Africa for IG, TikTok, FB, YouTube &amp; more.
           </p>
         </div>
         <div>
