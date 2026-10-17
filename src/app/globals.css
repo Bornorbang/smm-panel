@@ -195,6 +195,9 @@ html[data-theme="light"]{--bg:#f7f6f3;--fg:#191918;--surface:#fff;--surface-2:#e
 .admin-inline-totals{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin:0 0 18px}.admin-inline-totals strong{font-size:16px;font-weight:650;overflow-wrap:anywhere}.admin-amount-credit{color:#16834c}.admin-amount-debit{color:#dc2626}[data-theme=dark] .admin-amount-credit{color:#4ade80}[data-theme=dark] .admin-amount-debit{color:#f87171}.admin-pagination{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.admin-pagination>div{display:flex;align-items:center;gap:12px}.admin-pagination button{padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--fg);font-size:12px;cursor:pointer}.admin-pagination button:disabled{opacity:.4;cursor:not-allowed}@media(max-width:620px){.admin-pagination{flex-direction:column;align-items:flex-start}}
 
 /* Brand info marker for dashboard notifications. */
-.app-toast>span,.app-toast.error>span,.dash-content>.dash-alert::before,.dashboard-toast::before{display:grid;place-items:center;flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;line-height:1}
+.app-toast>span,.app-toast.error>span,.dash-content>.dash-alert::before,.dashboard-toast::before{display:grid;place-items:center;flex:0 0 18px;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;line-height:1}
 .dash-content>.dash-alert::before,.dashboard-toast::before{content:"i"}
 .dashboard-toast{display:flex;align-items:center;gap:10px}
+
+.app-toast.success>span,.dash-content>.dash-alert.success::before,.dashboard-toast::before{background:var(--green);color:#fff}
+.dash-content>.dash-alert.success::before,.dashboard-toast::before{content:"\2713"}

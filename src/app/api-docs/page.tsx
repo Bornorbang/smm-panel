@@ -48,5 +48,5 @@ export default function ApiDocs(){return <PublicShell><section className="page-h
   "balance": "15000.00",
   "currency": "NGN"
 }`}</Code></section>
-<section id="errors"><h2>Errors and limits</h2><p>Errors return JSON with an <code>error</code> field and an appropriate HTTP status.</p><Code>{`{ "error": "Insufficient wallet balance. Please fund your wallet before placing this order." }`}</Code><p>The limit is 120 requests per minute per account. Cancellation is unavailable; validate the service, link, and quantity before submitting an order.</p></section>
+<section id="errors"><h2>Errors and limits</h2><p>Errors return JSON with an <code>error</code> field and an appropriate HTTP status.</p><Code>{`{ "error": "Insufficient wallet balance. Please fund your wallet." }`}</Code><p>The limit is 120 requests per minute per account. Cancellation is unavailable; validate the service, link, and quantity before submitting an order.</p></section>
 </article></div></section></PublicShell>}
