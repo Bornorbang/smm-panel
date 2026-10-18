@@ -19,6 +19,7 @@ export default function UsersPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [loginId,setLoginId]=useState<number|null>(null);
   const [query,setQuery]=useState("");const[role,setRole]=useState("");const[access,setAccess]=useState("");const[from,setFrom]=useState("");const[to,setTo]=useState("");
   const load = useCallback(
     () => {
@@ -53,6 +54,13 @@ export default function UsersPage() {
         reason instanceof Error ? reason.message : "Unable to update wallet.",
       );
     }
+  }
+  async function loginAs(user:AdminUser){
+    if(loginId!==null)return;setLoginId(user.id);setError("");setMessage("");
+    // Reload clears cached account data after switching the authenticated session.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+    try{await api(`/api/admin/users/${user.id}/login`,{method:"POST"});window.location.assign("/dashboard")}
+    catch(reason){setError(reason instanceof Error?reason.message:"Unable to log in as this user.");setLoginId(null)}
   }
   async function updateUser(user:AdminUser,action:"role"|"lock"){setError("");setMessage("");try{const body=action==="role"?{role:user.role==="admin"?"user":"admin"}:{locked:!Boolean(user.locked)};await api(`/api/admin/users/${user.id}/${action}`,{method:"PATCH",body:JSON.stringify(body)});setMessage(`${user.name} was updated.`);await load()}catch(reason){setError(reason instanceof Error?reason.message:"Unable to update user.")}}
   const shown=useMemo(()=>users.filter(u=>(!query||`${u.name} ${u.email}`.toLowerCase().includes(query.toLowerCase()))&&(!role||u.role===role)&&(!access||(access==="locked")===Boolean(u.locked))&&(!from||u.created_at.slice(0,10)>=from)&&(!to||u.created_at.slice(0,10)<=to)),[users,query,role,access,from,to]);
@@ -111,6 +119,7 @@ export default function UsersPage() {
                       </button>
                       <button className="admin-action" onClick={()=>void updateUser(u,"role")}>{u.role==="admin"?"Make user":"Make admin"}</button>
                       <button className="admin-action" onClick={()=>void updateUser(u,"lock")}>{u.locked?"Unlock":"Lock"}</button>
+                      <button className="admin-action" disabled={loginId!==null} onClick={()=>void loginAs(u)}>{loginId===u.id?"Logging in...":"Login"}</button>
                     </td>
                   </tr>
                 ))}

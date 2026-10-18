@@ -1,6 +1,8 @@
 "use client";
 /* eslint-disable react-hooks/set-state-in-effect, @next/next/no-img-element */
 import Link from "next/link";
+import { AdminLoginBanner } from "./admin-login-banner";
+import { MailIcon } from "./mail-icon";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "./logo";
@@ -24,13 +26,14 @@ const links = [
   ["/dashboard/refills", "↻", "Refills"],
   ["/dashboard/api", "</>", "API"],
   ["/temp-number", "☎", "Temporary Numbers"],
-  ["/dashboard/temp-mail", "@", "Temporary Emails"],
+  ["/dashboard/temp-mail", "mail", "Temporary Emails"],
 ];
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [impersonating,setImpersonating]=useState(false);
   const [balance, setBalance] = useState("0.00");
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -41,11 +44,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     setDark(document.documentElement.dataset.theme !== "light");
     preloadServices();
     Promise.all([
-      api<{ user: User }>("/api/auth/me"),
+      api<{ user: User; impersonating?:boolean }>("/api/auth/me"),
       api<{ balance: string }>("/api/wallet"),
     ])
       .then(([profile, wallet]) => {
         setUser(profile.user);
+        setImpersonating(Boolean(profile.impersonating));
         setBalance(wallet.balance);
       })
       .catch(() => router.replace("/login"));
@@ -92,7 +96,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               onClick={() => setOpen(false)}
               className={path === href || (href === "/temp-number" && path.startsWith("/temp-number/")) ? "active" : ""}
             >
-              <span>{icon}</span>
+              <span>{href.endsWith("/temp-mail")?<MailIcon/>:icon}</span>
               {label}
             </Link>
           ))}
@@ -167,7 +171,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </header>
-        <div className="dash-content">{children}</div>{lockedModal&&<div className="locked-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="locked-title"><div className="locked-modal"><span>!</span><h2 id="locked-title">Account locked</h2><p>Your account is currently locked and cannot perform transactions. Please contact the administrator for assistance.</p><div><Link className="button" href="/dashboard/support" onClick={()=>setLockedModal(false)}>Contact support</Link><button className="button button-secondary" onClick={()=>setLockedModal(false)}>Close</button></div></div></div>}{toast&&<div className={`app-toast ${toast.type}`} role={toast.type==="error"?"alert":"status"}><span aria-hidden="true">{toast.type==="success"?"\u2713":"i"}</span><p>{toast.message}</p><button onClick={()=>setToast(null)} aria-label="Close notification">×</button></div>}
+        <div className="dash-content">{impersonating&&<AdminLoginBanner email={user.email}/>} {children}</div>{lockedModal&&<div className="locked-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="locked-title"><div className="locked-modal"><span>!</span><h2 id="locked-title">Account locked</h2><p>Your account is currently locked and cannot perform transactions. Please contact the administrator for assistance.</p><div><Link className="button" href="/dashboard/support" onClick={()=>setLockedModal(false)}>Contact support</Link><button className="button button-secondary" onClick={()=>setLockedModal(false)}>Close</button></div></div></div>}{toast&&<div className={`app-toast ${toast.type}`} role={toast.type==="error"?"alert":"status"}><span aria-hidden="true">{toast.type==="success"?"\u2713":"i"}</span><p>{toast.message}</p><button onClick={()=>setToast(null)} aria-label="Close notification">×</button></div>}
         <footer className="dashboard-footer">
           © 2026 <Link href="/">SMM Panel</Link>. All rights reserved.
         </footer>

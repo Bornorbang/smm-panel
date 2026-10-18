@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { AdminLoginBanner } from "./admin-login-banner";
+import { MailIcon } from "./mail-icon";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api, User } from "@/lib/api";
@@ -10,12 +12,12 @@ const links = [["/admin","▦","Overview"],["/admin/users","♙","Users"],["/adm
 
 links.push(["/admin/temp-numbers", "☎", "Temporary Numbers"]);
 
-links.push(["/admin/temp-mail", "@", "Temporary Emails"]);
+links.push(["/admin/temp-mail", "mail", "Temporary Emails"]);
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
-  const path=usePathname();const router=useRouter();const[user,setUser]=useState<User|null>(null);const[open,setOpen]=useState(false);
-  useEffect(()=>{api<{user:User}>("/api/auth/me").then(r=>{if(r.user.role!=="admin")router.replace("/dashboard");else setUser(r.user)}).catch(()=>router.replace("/login"))},[router]);
+  const path=usePathname();const router=useRouter();const[user,setUser]=useState<User|null>(null);const[impersonating,setImpersonating]=useState(false);const[open,setOpen]=useState(false);
+  useEffect(()=>{api<{user:User;impersonating?:boolean}>("/api/auth/me").then(r=>{if(r.user.role!=="admin")router.replace("/dashboard");else{setUser(r.user);setImpersonating(Boolean(r.impersonating))}}).catch(()=>router.replace("/login"))},[router]);
   async function logout(){await api("/api/auth/logout",{method:"POST"});router.push("/")}
   if(!user)return <div className="dash-loading"><span className="dashboard-spinner" aria-label="Loading"/></div>;
-  return <div className="dashboard admin-dashboard"><aside className={open?"dash-sidebar open":"dash-sidebar"}><div className="dash-logo"><Logo short/><button onClick={()=>setOpen(false)}>×</button></div><div className="admin-label">Administration</div><nav>{links.map(([href,icon,label])=><Link key={href} href={href} onClick={()=>setOpen(false)} className={path===href?"active":""}><span>{icon}</span>{label}</Link>)}</nav><Link className="admin-client-link" href="/dashboard">← Client dashboard</Link></aside><section className="dash-main"><header className="dash-topbar"><button className="dash-menu" onClick={()=>setOpen(true)}>☰</button><div><strong>Admin dashboard</strong><small>{user.email}</small></div><button className="admin-signout" onClick={logout}>Sign out</button></header><main className="dash-content">{children}</main><footer className="dashboard-footer">© 2026 <Link href="/">SMM Panel</Link>. All rights reserved.</footer></section></div>;
+  return <div className="dashboard admin-dashboard"><aside className={open?"dash-sidebar open":"dash-sidebar"}><div className="dash-logo"><Logo short/><button onClick={()=>setOpen(false)}>×</button></div><div className="admin-label">Administration</div><nav>{links.map(([href,icon,label])=><Link key={href} href={href} onClick={()=>setOpen(false)} className={path===href?"active":""}><span>{href.endsWith("/temp-mail")?<MailIcon/>:icon}</span>{label}</Link>)}</nav><Link className="admin-client-link" href="/dashboard">← Client dashboard</Link></aside><section className="dash-main"><header className="dash-topbar"><button className="dash-menu" onClick={()=>setOpen(true)}>☰</button><div><strong>Admin dashboard</strong><small>{user.email}</small></div><button className="admin-signout" onClick={logout}>Sign out</button></header><main className="dash-content">{impersonating&&<AdminLoginBanner email={user.email}/>} {children}</main><footer className="dashboard-footer">© 2026 <Link href="/">SMM Panel</Link>. All rights reserved.</footer></section></div>;
 }
