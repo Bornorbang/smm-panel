@@ -24,6 +24,7 @@ const links = [
   ["/dashboard/refills", "↻", "Refills"],
   ["/dashboard/api", "</>", "API"],
   ["/temp-number", "☎", "Temporary Numbers"],
+  ["/dashboard/temp-mail", "@", "Temporary Emails"],
 ];
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();

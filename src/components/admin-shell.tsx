@@ -10,6 +10,8 @@ const links = [["/admin","▦","Overview"],["/admin/users","♙","Users"],["/adm
 
 links.push(["/admin/temp-numbers", "☎", "Temporary Numbers"]);
 
+links.push(["/admin/temp-mail", "@", "Temporary Emails"]);
+
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const path=usePathname();const router=useRouter();const[user,setUser]=useState<User|null>(null);const[open,setOpen]=useState(false);
   useEffect(()=>{api<{user:User}>("/api/auth/me").then(r=>{if(r.user.role!=="admin")router.replace("/dashboard");else setUser(r.user)}).catch(()=>router.replace("/login"))},[router]);
