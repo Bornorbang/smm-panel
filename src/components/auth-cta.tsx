@@ -8,10 +8,12 @@ export function AuthCta({
   className = "button",
   arrow = false,
   withLogin = false,
+  onClick,
 }: {
   className?: string;
   arrow?: boolean;
   withLogin?: boolean;
+  onClick?: () => void;
 }) {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
@@ -33,7 +35,7 @@ export function AuthCta({
     );
 
   return (
-    <>{withLogin && !authenticated && <Link className="text-button hide-mobile" href="/login">Log in</Link>}<Link className={className} href={authenticated ? "/dashboard" : "/signup"}>
+    <>{withLogin && !authenticated && <Link className="text-button hide-mobile" href="/login">Log in</Link>}<Link className={className} href={authenticated ? "/dashboard" : "/signup"} onClick={onClick}>
       {authenticated ? "Dashboard" : "Create your account"}
       {arrow ? " →" : ""}
     </Link></>

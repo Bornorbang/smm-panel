@@ -23,6 +23,9 @@ export function SiteHeader() {
           <Link href="/services" onClick={() => setOpen(false)}>Services</Link>
           <Link href="/pricing" onClick={() => setOpen(false)}>Pricing</Link>
           <Link href="/about" onClick={() => setOpen(false)}>About</Link>
+          <div className="mobile-nav-auth">
+            <AuthCta className="button button-small" onClick={() => setOpen(false)} />
+          </div>
         </nav>
         <div className="nav-actions">
           <button className="icon-button" onClick={toggleTheme} aria-label="Toggle theme">{dark ? "☀" : "◐"}</button>

@@ -15,7 +15,13 @@ export default function NewOrder() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     loadServices()
-      .then(setServices)
+      .then((items) =>
+        setServices(
+          items.filter(
+            (service) => !/owlet/i.test(service.category) && !/owlet/i.test(service.name),
+          ),
+        ),
+      )
       .catch((e) => setError(e.message));
   }, []);
   const categories = useMemo(
