@@ -70,7 +70,7 @@ export default function OverviewPage() {
     );
   return (
     <>{toast && <div className="dashboard-toast">✓ {toast}</div>}<DashboardBannerCarousel />
-      <div className="dash-heading">
+      <div className="dash-heading dashboard-home-heading">
         <div>
           <h1>👋 Hello, {data.user.name.split(" ")[0]}</h1>
           <p>Here’s what’s happening with your orders today.</p>

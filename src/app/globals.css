@@ -142,6 +142,8 @@ html[data-theme="light"]{--bg:#f7f6f3;--fg:#191918;--surface:#fff;--surface-2:#e
 @media(max-width:850px){.api-settings-grid,.api-docs-layout{grid-template-columns:1fr}.api-docs-layout>aside{display:none}.footer-grid>.footer-other{display:flex!important}}@media(max-width:620px){.faq-list{width:min(100% - 28px,780px)}.api-key-actions{flex-direction:column}.api-facts{grid-template-columns:1fr}.api-docs table{display:block;overflow-x:auto}.api-docs-hero .button{width:100%}}
 .api-docs-hero{text-align:center}.api-docs-hero p{margin-inline:auto}.api-docs-hero .hero-actions{justify-content:center}
 .api-docs-layout>article{min-width:0}
+.dashboard-home-heading>.button{flex-shrink:0;white-space:nowrap}
+@media(max-width:620px){.dashboard-home-heading{gap:12px}.dashboard-home-heading>div{min-width:0;flex:1}.dashboard-home-heading h1{overflow-wrap:anywhere}.dashboard-home-heading p{display:none}.dashboard-home-heading>.button{min-width:120px}}
 .api-docs p{overflow-wrap:anywhere}
 .api-code{max-width:100%}
 @media(max-width:850px){.api-docs-layout{grid-template-columns:minmax(0,1fr);gap:0}}
